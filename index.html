@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>    
+        <meta charset="utf-8" />
+        <title> Crystal Collector!</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+        <!-- <link rel="Stylesheet" href= "assets/css/style.css"> -->
+    </head>
+
+    <body class= "bg-dark text-white">
+
+        <container class= "container col-12 row">
+                <section class = "col-12 row border border-white b-1 m-2">
+                        <h1>Crystal Collector</h1>
+                </section>
+                <section class = "col-8">
+                    <br>
+                    <p>Welcome to Eric's Crystal Collector. </p>
+                    <P>The individual crystals are worth different values, with the first always being worth 1.</P>
+                    <p>Click on each crystal to try to reach the targeted score in the fewest clicks.</p>
+                    <p>If your score exceeds the target number, you lose.</p>
+                    <p>A victory is always possible, so choose your crystals carefully.</p>
+                    <div class = "col-8 row center container m-3">
+                        <section class = "col-8">
+                            <div>Target: <span id= "target">0</span></div>
+                            <div>Score: <span id= "score">0</span></div>
+                        </section>
+                        <div class = "col-4">
+                            <div>Wins: <span id= "wins">0</span></div>
+                            <div>Losses: <span id= "losses">0</span></div>
+                        </div>
+                        
+                    </div>
+                    <div class = "col-4">
+                        NUMBER OF CLICKS TO WIN!
+                        <ul>
+                        <span  id= "scoreboard"></span>
+                        </ul>
+                    </div>
+                    <!--  Buttons -->
+                    <section class = "col-12 row">
+                        <Button id= "button1" class= "col-2 m-1">Gem 1</Button>
+                        <Button id= "button2" class= "col-2 m-1">Gem 2</Button>
+                        <Button id= "button3" class= "col-2 m-1">Gem 3</Button>
+                        <Button id= "button4" class= "col-2 m-1">Gem 4</Button>
+                    </section> 
+                </section>
+
+                    
+           
+
+        </container>
+
+
+        <script>
+            //Declaraation of global Varaibles.
+                //Total score
+                var score = 0;
+                //Target score
+                var target = 0;
+                //wins
+                var wins = 0;
+                //losses
+                var losses = 0;
+                //number of clicks
+                var clicks = 0;
+                //array of button values.
+                var buttonArray = [1,0,0,0];
+                //RNG
+                var rng = 0
+                
+
+            //Declaration of functions
+            function reset (){
+            //Reset transient values.
+                //set score to 0
+                score = 0
+                //reset number of clicks
+                clicks = 0
+                //set target to random number
+                target = Math.floor(Math.random() * 2500 + 1);
+                //write target to HTML
+                $("#target").html(" " + target + " ");
+                //regenerate button values
+                for (var i = 1; i < 4; i++){
+                      //run RNG function
+                      random();
+                      //splice RNG into the buttonArray at relevant positions
+                      buttonArray.splice (i, 1, rng);
+                      console.log(buttonArray[i])
+                };
+                
+            };
+                function win () {
+                //Win
+                    //Display winning message
+                    alert ("Congratulations! You've won!")
+                    //increment wins
+                    wins++                 
+                    //write new array to html
+                    $("clicks").append("<li>" + clicks + "</li>");
+                    //run f(reset)
+                    reset ();
+                };
+                function loss () {
+                //loss
+                    //display loss message
+                    alert ("Oops, try again!")
+                    //increment losses
+                    losses++
+                    //run f(reset)
+                    reset ();
+                };
+
+                //button press function
+                function buttonPress (X){                   
+                        //find value from button value array and assign to internal variable
+                        var gem = buttonArray[X];
+                        //increase score by value
+                        score + gem;
+                        console.log(score)
+                        //write new score to HTML
+                        $("#score").html(" " + score + " ");
+                        //check if score is >target, loss, if score === target, win.
+                        if (score === target){
+                            win ();
+                        }
+                        else if (score > target){
+                            loss ();
+                        };
+                        clicks++;
+                    };
+
+                //RNG function
+                function random() {
+                    var tempRng = Math.floor(Math.random() * 250) +1;
+                    rng = tempRng;
+                   
+                };
+
+                //button function assignment
+                $(document).ready(function() {
+                    $(".button").on("click", "#button1", buttonPress(1));
+                    $(".button").on("click", "#button2", buttonPress(2));
+                    $(".button").on("click", "#button3", buttonPress(3));
+                    $(".button").on("click", "#button4", buttonPress(4));
+                });
+
+
+
+            //call f(reset)
+            reset ();
+            
+            
+        </script>
+
+    </body>
