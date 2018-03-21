@@ -6,7 +6,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-        <!-- <link rel="Stylesheet" href= "assets/css/style.css"> -->
+        <link rel="Stylesheet" href= "assets/css/style.css">
     </head>
 
     <body class= "bg-dark text-white">
@@ -15,14 +15,14 @@
                 <section class = "col-12 row border border-white b-1 m-2">
                         <h1>Crystal Collector</h1>
                 </section>
-                <section class = "col-8">
+                <section class = "col-8 border border-white b-1 m-2">
                     <br>
-                    <p>Welcome to Eric's Crystal Collector. </p>
+                    <h3>Welcome to Eric's Crystal Collector! </h3>
                     <P>The individual crystals are worth different values, with the first always being worth 1.</P>
                     <p>Click on each crystal to try to reach the targeted score in the fewest clicks.</p>
                     <p>If your score exceeds the target number, you lose.</p>
                     <p>A victory is always possible, so choose your crystals carefully.</p>
-                    <div class = "col-8 row center container m-3">
+                    <div class = "col-8 row center container m-3 border border-white b-1">
                         <section class = "col-8">
                             <div>Target: <span id= "target">0</span></div>
                             <div>Score: <span id= "score">0</span></div>
@@ -33,19 +33,21 @@
                         </div>
                         
                     </div>
-                    <div class = "col-4">
-                        NUMBER OF CLICKS TO WIN!
-                        <ul>
-                        <span  id= "scoreboard"></span>
-                        </ul>
-                    </div>
+                    
                     <!--  Buttons -->
                     <section class = "col-12 row">
-                        <Button id= "button1" class= "col-2 m-1">Gem 1</Button>
-                        <Button id= "button2" class= "col-2 m-1">Gem 2</Button>
-                        <Button id= "button3" class= "col-2 m-1">Gem 3</Button>
-                        <Button id= "button4" class= "col-2 m-1">Gem 4</Button>
+                        <input type="image" id= "button1" class= "gem m-1 image-fluid" src= "assets/images/square.png">
+                        <input type="image" id= "button2" class= "gem m-1 image-fluid" src= "assets/images/sapphire.png">
+                        <input type="image" id= "button3" class= "gem m-1 image-fluid" src= "assets/images/diamond.png">
+                        <input type="image" id= "button4" class= "gem m-1 image-fluid" src= "assets/images/emerald.png">
                     </section> 
+
+                    <div class = "col-4">
+                            <h3> Scoreboard: </h3>
+                            <ul>
+                            <span  id= "scoreboard"></span>
+                            </ul>
+                        </div>
                 </section>
 
                     
@@ -70,6 +72,8 @@
                 var buttonArray = [1,0,0,0];
                 //RNG
                 var rng = 0
+                //Button Number
+                var buttonNum = 0
                 
 
             //Declaration of functions
@@ -93,31 +97,35 @@
                 };
                 
             };
-                function win () {
+            function win () {
                 //Win
                     //Display winning message
                     alert ("Congratulations! You've won!")
                     //increment wins
-                    wins++                 
+                    wins++
+                    //write wins to HTML
+                    $("#wins").html(" " + wins + " ");                 
                     //write new array to html
-                    $("clicks").append("<li>" + clicks + "</li>");
+                    $("#clicks").append("<br><li>" + clicks + "</li>");
                     //run f(reset)
                     reset ();
                 };
-                function loss () {
+            function loss () {
                 //loss
                     //display loss message
                     alert ("Oops, try again!")
                     //increment losses
                     losses++
+                    //write losses to html
+                    $("#losses").html(" " + losses + " ");
                     //run f(reset)
                     reset ();
                 };
 
                 //button press function
-                function buttonPress (X){                   
+            function buttonPress(){  
                         //find value from button value array and assign to internal variable
-                        var gem = buttonArray[X];
+                        var gem = buttonArray[buttonNum];
                         //increase score by value
                         score + gem;
                         console.log(score)
@@ -134,18 +142,36 @@
                     };
 
                 //RNG function
-                function random() {
+            function random() {
                     var tempRng = Math.floor(Math.random() * 250) +1;
                     rng = tempRng;
                    
                 };
 
+                //button functions
+            function button1 () {
+                    buttonNum = 0;
+                    buttonPress();
+                };
+            function button2 () {
+                    buttonNum = 1;
+                    buttonPress();
+                };
+            function button3 () {
+                    buttonNum = 2;
+                    buttonPress();
+                };
+            function button4 () {
+                    buttonNum = 3;
+                    buttonPress();
+                };
+
                 //button function assignment
-                $(document).ready(function() {
-                    $(".button").on("click", "#button1", buttonPress(1));
-                    $(".button").on("click", "#button2", buttonPress(2));
-                    $(".button").on("click", "#button3", buttonPress(3));
-                    $(".button").on("click", "#button4", buttonPress(4));
+            $(document).ready(function() {
+                    $(".gem").on("click", "#button1", button1);
+                    $(".gem").on("click", "#button2", button2);
+                    $(".gem").on("click", "#button3", button3);
+                    $(".gem").on("click", "#button4", button4);
                 });
 
 
